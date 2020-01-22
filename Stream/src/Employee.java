@@ -17,7 +17,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Student [name=" + name + ", mark=" + marks + "]";
+        return "name=" + name + ", mark=" + marks;
     }
 
 }
