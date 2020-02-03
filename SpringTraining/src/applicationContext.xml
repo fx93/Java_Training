@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation = "http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.training"/>
+
+    <bean name="employeeRepository"
+          class = "com.training.salesmanager.repository.HibernateEmployeeRepositoryImpl"/>
+
+    <!-- setter injection
+    <bean name="employeeService"
+          class = "com.training.salesmanager.service.EmployeeServiceImpl">
+         ref is bean name = mentioned above, name is service class declaration = wiring
+        <property name="employeeRepository" ref="employeeRepository"/>
+    </bean> -->
+
+    <!-- constructor injection -->
+   <bean name="employeeService"
+         class = "com.training.salesmanager.service.EmployeeServiceImpl" autowire="constructor">
+       <!-- ref is bean name = mentioned above, name is service class declaration = wiring -->
+        <!-- constructor-arg index="0" ref="employeeRepository"-->
+    </bean>
+
+</beans>
+
