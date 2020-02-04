@@ -10,6 +10,7 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="com.training"/>
+    <context:property-placeholder location="application.properties"/>
 
     <bean name="employeeRepository"
           class = "com.training.salesmanager.repository.HibernateEmployeeRepositoryImpl"/>
@@ -23,7 +24,7 @@
 
     <!-- constructor injection -->
    <bean name="employeeService"
-         class = "com.training.salesmanager.service.EmployeeServiceImpl" autowire="constructor">
+         class = "com.training.salesmanager.service.EmployeeServiceImpl" autowire="constructor" scope="singleton">
        <!-- ref is bean name = mentioned above, name is service class declaration = wiring -->
         <!-- constructor-arg index="0" ref="employeeRepository"-->
     </bean>

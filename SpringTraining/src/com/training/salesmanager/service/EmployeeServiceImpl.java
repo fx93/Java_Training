@@ -11,25 +11,26 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     // EmployeeRepository employeeRepository = new HibernateEmployeeRepositoryImpl();
-    //@Autowired
+    // @Autowired
     EmployeeRepository employeeRepository;
 
     public EmployeeServiceImpl(){
-        // TODO Auto-generated constructor stub
-    }
-
-    public EmployeeRepository getEmployeeRepository(){
-        return employeeRepository;
+        System.out.println("Deafult Constructor");
     }
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository){
+        System.out.println("Overloaded Constructor");
         this.employeeRepository = employeeRepository;
     }
 
     @Autowired
     public void setEmployeeRepository(EmployeeRepository employeeRepository){
-        System.out.println("section inection fired");
+        System.out.println("setter injection fired");
         this.employeeRepository = employeeRepository;
+    }
+
+    public EmployeeRepository getEmployeeRepository(){
+        return employeeRepository;
     }
 
     @Override
