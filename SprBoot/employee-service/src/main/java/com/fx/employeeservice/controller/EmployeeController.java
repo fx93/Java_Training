@@ -1,6 +1,7 @@
 package com.fx.employeeservice.controller;
 
 import com.fx.employeeservice.model.Employee;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class EmployeeController {
         return "Hello world from SpringBoot";
     }
 
-    @RequestMapping("/employee")
+    @RequestMapping(value = "/employee", produces = MediaType.APPLICATION_XML_VALUE)
     public List<Employee> getEmployees(){
         return Employee.getAllEmployees();
     }

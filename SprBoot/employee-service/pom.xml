@@ -38,8 +38,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <!---version>4.3.12.RELEASE</version-->
+            <!---version>4.3.12.RELEASE</version = produces IllegalStateException Error-->
         </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
     </dependencies>
 
 	<build>
