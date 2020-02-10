@@ -1,42 +1,40 @@
 package com.fx.employeeservice.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Employee {
 
-    private String name;
-    private int marks;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String firstName;
+    private String lastName;
 
-    public Employee(String name, int marks) {
-        this.name = name;
-        this.marks = marks;
+    public Integer getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public int getMarks() {
-        return marks;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setMarks(int marks) {
-        this.marks = marks;
+    public String getLastName() {
+        return lastName;
     }
 
-    public static List<Employee> getAllEmployees() {
-        List<Employee> employeeList = new ArrayList<Employee>();
-
-        employeeList.add(new Employee("Fx", 98));
-        employeeList.add(new Employee("Kumar", 76));
-        employeeList.add(new Employee("Jeano", 90));
-        employeeList.add(new Employee("David", 65));
-        employeeList.add(new Employee("Kiri", 44));
-        return employeeList;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
