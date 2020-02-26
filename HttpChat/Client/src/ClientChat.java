@@ -1,19 +1,37 @@
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.io.*;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.net.ssl.HttpsURLConnection;
 
-public class HttpClient {
 
-    private static String ip, port, name;
+public class ClientChat {
 
-    public static void main(String[] args) {
+    private static PrintWriter out = null;
+    private static BufferedReader in = null;
+    private static String ip = "localhost", name = "fx", port = "8090";
+
+
+    //Exception in thread "main" javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No name matching localhost found
+    static {
+        //for localhost testing only to pass the security
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+                new javax.net.ssl.HostnameVerifier() {
+
+                    public boolean verify(String hostname,
+                                          javax.net.ssl.SSLSession sslSession) {
+                        if (hostname.equals("127.0.0.1")) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+    }
+
+
+    public static void main(String[] args) throws Exception {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("connect ip:port as <Yourname> (To register)");
@@ -36,37 +54,17 @@ public class HttpClient {
 
             String httpsURL = "https://" + ip + ":" + port + "/register?name=" + name;
 
+            URL myUrl = new URL(httpsURL);
+            HttpsURLConnection conn = (HttpsURLConnection) myUrl.openConnection();
 
-            URL myUrl = null;
-            HttpsURLConnection connection = null;
-            InputStream inputStream = null;
-            try {
-                myUrl = new URL(httpsURL);
-                connection = (HttpsURLConnection) myUrl.openConnection();
-                inputStream = connection.getInputStream();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+            InputStream is = conn.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
             String inputLine;
-            try {
-                while ((inputLine = bufferedReader.readLine()) != null) {
-                    System.out.println(inputLine);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((inputLine = br.readLine()) != null) {
+                System.out.println(inputLine);
             }
-            try {
-                bufferedReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            br.close();
 
 
             new Thread(() -> {
@@ -116,36 +114,10 @@ public class HttpClient {
                 }
             }).start();
 
-        }
-
-        else {
+        } else {
             System.out.println("Invalid command !");
         }
     }
-
-
-
-    private static void getList() {
-        try {
-            System.out.println("--List of connected users--");
-            String httpsURL1 = "https://127.0.0.1:8090/list?name=" + name;
-            URL myUrl1 = new URL(httpsURL1);
-            HttpsURLConnection conn1 = (HttpsURLConnection) myUrl1.openConnection();
-
-
-            InputStream is1 = conn1.getInputStream();
-            InputStreamReader isr1 = new InputStreamReader(is1);
-            BufferedReader br1 = new BufferedReader(isr1);
-            String inputLine1;
-            while ((inputLine1 = br1.readLine()) != null) {
-                System.out.println(inputLine1);
-            }
-            br1.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private static void sendToServer(String sendToServer) {
         try {
@@ -181,4 +153,26 @@ public class HttpClient {
         }
     }
 
+    private static void getList() {
+        try {
+            System.out.println("--List of connected users--");
+            String httpsURL1 = "https://127.0.0.1:8090/list?name=" + name;
+            URL myUrl1 = new URL(httpsURL1);
+            HttpsURLConnection conn1 = (HttpsURLConnection) myUrl1.openConnection();
+
+
+            InputStream is1 = conn1.getInputStream();
+            InputStreamReader isr1 = new InputStreamReader(is1);
+            BufferedReader br1 = new BufferedReader(isr1);
+            String inputLine1;
+            while ((inputLine1 = br1.readLine()) != null) {
+                System.out.println(inputLine1);
+            }
+            br1.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
